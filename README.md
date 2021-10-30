@@ -4,7 +4,7 @@ MSc thesis on Embeddings store monitoring
 
 My MSc thesis on Embeddings Monitoring
 
-![uva logo](https://raw.githubusercontent.com/theofpa/embeddings-store-thesis/main/images/compacte-logo.jpg | width=200)
+![](https://raw.githubusercontent.com/theofpa/embeddings-store-thesis/main/images/compacte-logo.jpg)
 
 A Dissertation submitted in partial fulfillment of the requirements for the degree of Master of Science.
 
