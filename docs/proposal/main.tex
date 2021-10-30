@@ -1,6 +1,9 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
 
+\usepackage{biblatex}
+\addbibresource{references.bib}
+
 \title{Embeddings store thesis proposal}
 \author{Theofilos Papapanagiotou}
 \date{October 2021}
@@ -8,8 +11,6 @@
 \begin{document}
 
 \maketitle
-
-
 \section{Introduction}
 %Introduce the general area of the research
 \section{Problem Statement}
@@ -29,10 +30,17 @@
 \section{Related Work}
 %List the most important related work, ideally with a paper reference and a one-sentence description
 \begin{itemize}
-    \item embedding distance measures
+    \item Short-Term Change in Word Representation~\cite{stewartMeasuringPredictingVisualizing}
+    \item Semantic shifts~\cite{azarbonyadWordsAreMalleable2017}
+    \item Short-Term Meaning Shift~\cite{deltrediciShortTermMeaningShift2018}
+    \item Meaning in word embeddings~\cite{mikolovDistributedRepresentationsWords2013}
+    \item Embedding store~\cite{orrManagingMLPipelines2021a}
 \end{itemize}
 \section{Open Questions}
 %List open questions not covered by the proposal
 \section{Next Steps}
 %Describe what the immediate next steps for the proposed work should be
+
+\printbibliography
+
 \end{document}
