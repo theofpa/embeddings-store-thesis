@@ -13,28 +13,95 @@
 \maketitle
 \section{Introduction}
 %Introduce the general area of the research
+Continuous machine learning pipelines are successful due to having event-driven retraining~\cite{baylorContinuousTrainingProduction2019a}. That event or trigger
+depends on the drift detected in the distribution of feature values across multiple batches of data~\cite{breckDataValidationMachine}.
+Furthermore, skew detection between training and serving also depends on such metrics~\cite{cavenessTensorFlowDataValidation2020},
+using $L_{\infty}$ distance for numerical or shannon distance for categorical features.
+
+Feature stores are traditionally key value stores like feast redis and hopsworks NDB~\cite{ormenisHorizontallyScalableML}.
+Add Michelangelo, Bootleg, if needed.
+They provide low latency retrieval of features based on key. Businesses (cite) usually encode in that key some extra
+information such as the model version used to calculate a particular version of the embedding. Any further retrieval is based on that and other metadata stored around that key hashmap.
+
+Due to the growth of language models and the reusability of the vector representations of word/sentences meanings (embeddings),
+production feature store systems which store embeddings require retrieval capabilities that a KV cannot offer.
+Examples are the similarity search and the monitoring of drift detection.\cite{orrManagingMLPipelines2021a}
+
+This thesis aims to look at the later, and contribute a set of metrics to be integrated with a vector database to enable such monitoring capabilities.
+
 \section{Problem Statement}
-%What is the fundamental research problem that you aim to solve?
-%Why is the problem important?
-%Why is the problem non-trivial?
-%Why is the problem not solved by the current state-of-the-art
+\subsection{What is the fundamental research problem that you aim to solve?}
+Enrich the embedding store capabilities in the space of monitoring. Identify which metrics are optimal for
+shift detection of words and sentenses meaning in language models.
+
+\subsection{Why is the problem important?}
+Statistically significant linguistic shifts in the meaning~\cite{benderClimbingNLUMeaning2020} and usage of words.
+
+In continuous training pipelines, we need an event or trigger to retrain on drift~\cite{baylorContinuousTrainingProduction2019a}.
+
+%A use case in adversarial attacks is using the maximum word embedding distance as a constraint that determines if a
+%perturbation is valid with respect to the original input~\cite{morrisTextAttackFrameworkAdversarial2020}. That's actually
+%a use case for the search similarity, not for the monitoring.
+
+\subsection{Why is the problem non-trivial?}
+
+Since embeddings computed in different semantic spaces are not directly comparable, time related representations
+are usually made comparable either by aligning different semantic spaces through a transformation
+matrix~\cite{kulkarniStatisticallySignificantDetection2015},~\cite{azarbonyadWordsAreMalleable2017},
+~\cite{hamiltonDiachronicWordEmbeddings2016} or by initializing the embeddings at $t_{i}+1$ using those
+computed at $t_{i}$~\cite{}.
+
+Because embedding spaces are different and have different dimensionality structures, we cannot compare the vectors of a
+word in two different spaces directly.
+
+\subsection{Why is the problem not solved by the current state-of-the-art}
+
+
+
+
+
+Tools in the space of vector databases and embedding stores recently flourish, but focus only on the similarity search.
+
+Meaning shift/Drift detection in the embedding space is left due to the difficult nature of measuring semantic shifts in
+unstructured data.
+
 \section{Proposed Approach \& Contributions}
-%Sketch the method that you aim to develop to solve the outlined problem
-%List the novel contributions provided by your approach
+% Sketch the method that you aim to develop to solve the outlined problem
+% List the novel contributions provided by your approach
 \section{Example}
-%Create an example, ideally with a figure, which exemplifies the problem and can be used to guide readers through your proposed approach
+% Create an example, ideally with a figure, which exemplifies the problem and can be used to guide readers
+% through your proposed approach
 \section{Experimental Evaluation}
-%How should the quality of your method be measured?
-%What are baseline techniques that your method should be compared to?
-%Sketch potential experiments and expected outcomes (on a high-level)
+% How should the quality of your method be measured?
+\begin{itemize}
+    \item word stability~\cite{azarbonyadWordsAreMalleable2017}
+    \item change point detection in time series to assign significance of change scores to each word~\cite{kulkarniStatisticallySignificantDetection2015}
+    \item conformity: the rate of semantic change scales with an inverse power-law of word frequency~\cite{hamiltonDiachronicWordEmbeddings2016}
+    \item innovation: independent of frequency, words that are more polysemous have higher rates of semantic change~\cite{hamiltonDiachronicWordEmbeddings2016}
+\end{itemize}
+% What are baseline techniques that your method should be compared to?
+\begin{itemize}
+    \item linear transformation of vectors across embedding spaces~\cite{azarbonyadWordsAreMalleable2017}
+    \item graph-based node similarity\cite{azarbonyadWordsAreMalleable2017}
+    \item combination of the above~\cite{azarbonyadWordsAreMalleable2017}
+    \item distance-based distributional time series of word meanings~\cite{kulkarniStatisticallySignificantDetection2015}
+    \item Measuring semantic displacement (cosine similarity)~\cite{hamiltonDiachronicWordEmbeddings2016}
+    \item Word Comparisons over time (cosine similarity)~\cite{kimTemporalAnalysisLanguage2014}
+\end{itemize}
+% Sketch potential experiments and expected outcomes (on a high-level)
+
 \section{Related Work}
-%List the most important related work, ideally with a paper reference and a one-sentence description
+
+% List the most important related work, ideally with a paper reference and a one-sentence description
 \begin{itemize}
     \item Short-Term Change in Word Representation~\cite{stewartMeasuringPredictingVisualizing}
     \item Semantic shifts~\cite{azarbonyadWordsAreMalleable2017}
     \item Short-Term Meaning Shift~\cite{deltrediciShortTermMeaningShift2018}
     \item Meaning in word embeddings~\cite{mikolovDistributedRepresentationsWords2013}
     \item Embedding store~\cite{orrManagingMLPipelines2021a}
+    \item Statistically significant linguistic shifts in the meaning and usage of words~\cite{kulkarniStatisticallySignificantDetection2015}
+    \item Temporal evolution of natural language~\cite{kulkarniStatisticallySignificantDetection2015}: frequency, part-of-speech tag distribution, and word co-occurrence
+    \item CheckList~\cite{ribeiroAccuracyBehavioralTesting2020}
 \end{itemize}
 \section{Open Questions}
 %List open questions not covered by the proposal
