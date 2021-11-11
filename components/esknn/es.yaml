@@ -1,0 +1,69 @@
+apiVersion: elasticsearch.k8s.elastic.co/v1
+kind: Elasticsearch
+metadata:
+  name: es
+spec:
+  version: 7.14.1
+  nodeSets:
+    - name: default
+      count: 1
+      volumeClaimTemplates:
+        - metadata:
+            name: elasticsearch-data
+          spec:
+            accessModes:
+              - ReadWriteOnce
+            resources:
+              requests:
+                storage: 5Gi
+            storageClassName: local-path
+      podTemplate:
+        spec:
+          initContainers:
+          - name: install-plugins
+            command:
+              - sh
+              - -c
+              - |
+                bin/elasticsearch-plugin install -batch https://github.com/alexklibisz/elastiknn/releases/download/7.14.1.2/elastiknn-7.14.1.2.zip
+          containers:
+            - name: elasticsearch
+              env:
+                - name: READINESS_PROBE_PROTOCOL
+                  value: "http"
+      config:
+        node.store.allow_mmap: false
+        xpack.security.enabled: false
+        xpack.security.http.ssl.enabled: false
+        xpack.security.transport.ssl.enabled: false
+---
+apiVersion: kibana.k8s.elastic.co/v1
+kind: Kibana
+metadata:
+  name: kb
+spec:
+  version: 7.14.1
+  count: 1
+  http:
+    service:
+      spec:
+        type: LoadBalancer
+        ports:
+          - port: 5601
+            name: https
+  config:
+    elasticsearch.hosts:
+      - http://es-es-http:9200
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: es
+  namespace: default
+spec:
+  ports:
+    - name: http
+      port: 9200
+  selector:
+    elasticsearch.k8s.elastic.co/cluster-name: es
+  type: LoadBalancer
