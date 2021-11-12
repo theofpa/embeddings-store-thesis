@@ -60,7 +60,7 @@ q = {
     "elastiknn_nearest_neighbors": {
         "field": "title_vector",
         "vec": {
-            "values": embed(tf.constant([text])).numpy().tolist()[0],
+            "values": embed(tf.constant([newtext])).numpy().tolist()[0],
         },
         "model": "lsh",
         "similarity": "cosine",
