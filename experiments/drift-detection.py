@@ -14,7 +14,7 @@ from tensorflow.keras.layers import Dense, LeakyReLU, MaxPool1D
 from transformers import TFRobertaModel
 from collections import Counter
 ex = Experiment(name='drift-detection-v10')
-ex.observers.append(MongoObserver(url='mongodb+srv://uva:uva@uva.otmss.mongodb.net/uva?retryWrites=true', db_name='uva'))
+ex.observers.append(MongoObserver(url='mongodb+srv://xxx:xxx@xxx.otmss.mongodb.net/uva?retryWrites=true', db_name='xxx'))
 
 @ex.config
 def cfg():

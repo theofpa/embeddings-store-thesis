@@ -19,5 +19,5 @@ pip install -r requirements.txt
 
 # Sacred
 ```
-omniboard --mu "mongodb+srv://uva:uva@uva.otmss.mongodb.net/uva?retryWrites=true"
+omniboard --mu "mongodb+srv://xxx:xxx@xxx.otmss.mongodb.net/xxx?retryWrites=true"
 ```
